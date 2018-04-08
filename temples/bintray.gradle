@@ -1,23 +1,16 @@
-apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
-Properties properties = new Properties()
-boolean isHasFile = false
-if (project.rootProject.findProject('local.properties') != null){
-    isHasFile = true
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-}
-
-def gitUrl = 'https://github.com/LeLe673893702/MVPArms.git'   // Git仓库的url
-def siteUrl = 'https://github.com/LeLe673893702/MVPArms'   // 项目的主页
+def gitUrl = 'https://github.com/LeLe673893702/MvpTemplates.git'   // Git仓库的url
+def siteUrl = 'https://github.com/LeLe673893702/MvpTemplates'   // 项目的主页
 
 def prVersion = "1.0.0"
 group = "com.newler"
 
 
 bintray {
-    user = isHasFile ? properties.getProperty("bintray.user") : System.getenv("bintray_user")
-    key = isHasFile ? properties.getProperty("bintray.apikey") : System.getenv("bintray_apikey")
+    user = 'newler'
+    key = '732239b5215135660686d4337285929be2bc85f2'
     configurations = ['archives']
 
     pkg {
@@ -29,16 +22,17 @@ bintray {
         publish = true // 是否是公开项目。
 
         version {
-            name = "M"
             desc = 'A common Architecture for Android Applications developing based on MVP，integrates many Open Source Projects( like Dagger2,RxJava,Retrofit... ),to make your developing quicker and easier.'
-            released = new Date()
             vcsTag = prVersion
             attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
         }
     }
 }
 
+/*
+* gradlew clean build bintrayUpload -PbintrayUser=newler -PbintrayKey=732239b5215135660686d4337285929be2bc85f2  -PdryRun=false --info
 
+* */
 
 install {
     repositories.mavenInstaller {
