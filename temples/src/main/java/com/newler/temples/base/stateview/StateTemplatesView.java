@@ -1,13 +1,13 @@
-package com.newler.temples.base.state;
+package com.newler.temples.base.stateview;
 
-import com.newler.temples.base.common.IView;
+import com.newler.temples.base.common.TemplatesView;
 
 /**
  *
  * @author liule
  * @time 2018/3/9
  */
-public interface IStateView extends IView {
+public interface StateTemplatesView extends TemplatesView {
     /**
      * 显示主界面
      */

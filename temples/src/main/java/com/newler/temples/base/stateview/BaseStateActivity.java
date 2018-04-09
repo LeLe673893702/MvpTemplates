@@ -1,33 +1,32 @@
-package com.newler.temples.base.state;
+package com.newler.temples.base.stateview;
 
-
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.newler.temples.R;
-import com.newler.temples.base.common.BaseFragment;
+import com.newler.temples.base.common.BaseActivity;
 
 /**
- * 状态fragment
+ *
  * @author liule
  * @time 2018/3/9
  */
-public abstract class BaseStateFragment<SP extends IStatePresenter> extends BaseFragment<SP> implements IStateView {
-
+public abstract class BaseStateActivity<SP extends StateTemplatesPresenter> extends BaseActivity<SP> implements StateTemplatesView {
     private ViewStub contentViewStub, loadedFailViewStub;
     private ProgressBar mProgressBar;
     private TextView tvLoadedFail;
 
     @Override
     public void initView() {
-        contentViewStub = getView().findViewById(R.id.view_stub_content);
-        loadedFailViewStub = getView().findViewById(R.id.view_stub_loaded_fail);
-        mProgressBar = getView().findViewById(R.id.progress_bar_loading);
+        contentViewStub = findViewById(R.id.view_stub_content);
+        loadedFailViewStub = findViewById(R.id.view_stub_loaded_fail);
+        mProgressBar = findViewById(R.id.progress_bar_loading);
 
         contentViewStub.setLayoutResource(getStateContentLayoutResId());
+
+        mPresenter.loadData();
     }
 
     @Override
@@ -52,7 +51,7 @@ public abstract class BaseStateFragment<SP extends IStatePresenter> extends Base
     public void loadedFail() {
         if (tvLoadedFail == null) {
             loadedFailViewStub.inflate();
-            tvLoadedFail = getView().findViewById(R.id.tv_loaded_fail);
+            tvLoadedFail = findViewById(R.id.tv_loaded_fail);
             tvLoadedFail.setOnClickListener(view -> mPresenter.loadData());
         }
     }
@@ -63,4 +62,6 @@ public abstract class BaseStateFragment<SP extends IStatePresenter> extends Base
      * @return
      */
     public abstract int getStateContentLayoutResId();
+
+
 }

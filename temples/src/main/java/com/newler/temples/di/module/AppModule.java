@@ -21,8 +21,8 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.newler.temples.integration.IRepositoryManager;
 import com.newler.temples.integration.RepositoryManager;
+import com.newler.temples.integration.RepositoryManagerImpl;
 import com.newler.temples.integration.cache.Cache;
 import com.newler.temples.integration.cache.CacheType;
 
@@ -65,8 +65,8 @@ public class AppModule {
 
     @Singleton
     @Provides
-    public IRepositoryManager provideRepositoryManager(RepositoryManager repositoryManager) {
-        return repositoryManager;
+    public RepositoryManager provideRepositoryManager(RepositoryManagerImpl repositoryManagerImpl) {
+        return repositoryManagerImpl;
     }
 
     @Singleton

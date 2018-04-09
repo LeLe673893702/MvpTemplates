@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.newler.temples.integration.store.lifecyclemodel;
+package com.newler.temples.integration.lifecyclemodel;
 
 import android.app.Activity;
 import android.app.Application.ActivityLifecycleCallbacks;
@@ -52,6 +52,9 @@ public class HolderFragment extends Fragment {
 
     private final LifecycleModelStore mLifecycleModelStore = new LifecycleModelStore();
 
+    /**
+     * 关键方法如果设置了true，activity被重建之后，fragment不会被重建
+     */
     public HolderFragment() {
         setRetainInstance(true);
     }
@@ -95,6 +98,9 @@ public class HolderFragment extends Fragment {
 
     @SuppressWarnings("WeakerAccess")
     static class HolderFragmentManager {
+        /**
+         * 专门存放activity对应的holderfragment，一个holderfragment可能对应多个activity
+         */
         private Map<Activity, HolderFragment> mNotCommittedActivityHolders = new HashMap<>();
         private Map<Fragment, HolderFragment> mNotCommittedFragmentHolders = new HashMap<>();
 
@@ -135,6 +141,10 @@ public class HolderFragment extends Fragment {
             }
         }
 
+        /**
+         * 根据tag找fragment，如果存在相同tag但是不是holderFragment就会抛异常
+         *
+         */
         private static HolderFragment findHolderFragment(FragmentManager manager) {
             if (manager.isDestroyed()) {
                 throw new IllegalStateException("Can't access LifecycleModels from onDestroy");
@@ -154,8 +164,13 @@ public class HolderFragment extends Fragment {
             return holder;
         }
 
+        /**
+         * 1.找fragment,先判断fragment是否绑定了activity，绑定了就会根据tag找到fragment
+         * 2.如果没有找到就在mNotCommittedActivityHolders里面找
+         */
         HolderFragment holderFragmentFor(FragmentActivity activity) {
             FragmentManager fm = activity.getSupportFragmentManager();
+
             HolderFragment holder = findHolderFragment(fm);
             if (holder != null) {
                 return holder;

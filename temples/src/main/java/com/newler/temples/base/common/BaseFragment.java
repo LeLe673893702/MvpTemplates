@@ -43,7 +43,7 @@ import javax.inject.Inject;
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * ================================================
  */
-public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IFragment {
+public abstract class BaseFragment<P extends TemplatesPresenter> extends Fragment implements IFragment {
     protected final String TAG = this.getClass().getSimpleName();
     private Cache<String, Object> mCache;
     @Inject

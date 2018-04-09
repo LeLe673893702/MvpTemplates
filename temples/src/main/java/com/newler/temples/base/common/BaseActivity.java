@@ -48,7 +48,7 @@ import static com.newler.temples.utils.ThirdViewUtil.convertAutoView;
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * ================================================
  */
-public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity implements IActivity {
+public abstract class BaseActivity<P extends TemplatesPresenter> extends AppCompatActivity implements IActivity {
     protected final String TAG = this.getClass().getSimpleName();
     private Cache<String, Object> mCache;
     private Unbinder mUnbinder;

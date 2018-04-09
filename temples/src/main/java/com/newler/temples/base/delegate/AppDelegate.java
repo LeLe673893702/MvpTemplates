@@ -28,7 +28,6 @@ import com.newler.temples.di.component.DaggerAppComponent;
 import com.newler.temples.di.module.AppModule;
 import com.newler.temples.di.module.ClientModule;
 import com.newler.temples.di.module.GlobalConfigModule;
-import com.newler.temples.http.imageloader.glide.ImageConfigImpl;
 import com.newler.temples.integration.ActivityLifecycle;
 import com.newler.temples.integration.ConfigModule;
 import com.newler.temples.integration.ManifestParser;
@@ -194,12 +193,9 @@ public class AppDelegate implements App, AppLifecycles {
 
         @Override
         public void onLowMemory() {
-            //内存不足时清理图片请求框架的内存缓存
-            mAppComponent.imageLoader().clear(mApplication, ImageConfigImpl
-                    .builder()
-                    .isClearMemory(true)
-                    .build());
+
         }
+
     }
 
 }

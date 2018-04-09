@@ -24,8 +24,6 @@ import com.bumptech.glide.Glide;
 import com.newler.temples.http.BaseUrl;
 import com.newler.temples.http.GlobalHttpHandler;
 import com.newler.temples.http.RequestInterceptor;
-import com.newler.temples.http.imageloader.BaseImageLoaderStrategy;
-import com.newler.temples.http.imageloader.glide.GlideImageLoaderStrategy;
 import com.newler.temples.integration.cache.Cache;
 import com.newler.temples.integration.cache.CacheType;
 import com.newler.temples.integration.cache.LruCache;
@@ -57,7 +55,6 @@ import okhttp3.Interceptor;
 public class GlobalConfigModule {
     private HttpUrl mApiUrl;
     private BaseUrl mBaseUrl;
-    private BaseImageLoaderStrategy mLoaderStrategy;
     private GlobalHttpHandler mHandler;
     private List<Interceptor> mInterceptors;
     private ResponseErrorListener mErrorListener;
@@ -75,7 +72,6 @@ public class GlobalConfigModule {
     private GlobalConfigModule(Builder builder) {
         this.mApiUrl = builder.apiUrl;
         this.mBaseUrl = builder.baseUrl;
-        this.mLoaderStrategy = builder.loaderStrategy;
         this.mHandler = builder.handler;
         this.mInterceptors = builder.interceptors;
         this.mErrorListener = builder.responseErrorListener;
@@ -117,19 +113,6 @@ public class GlobalConfigModule {
         }
         return mApiUrl == null ? HttpUrl.parse("https://api.github.com/") : mApiUrl;
     }
-
-
-    /**
-     * 提供图片加载框架,默认使用 {@link Glide}
-     *
-     * @return
-     */
-    @Singleton
-    @Provides
-    BaseImageLoaderStrategy provideImageLoaderStrategy() {
-        return mLoaderStrategy == null ? new GlideImageLoaderStrategy() : mLoaderStrategy;
-    }
-
 
     /**
      * 提供处理 Http 请求和响应结果的处理类
@@ -219,7 +202,6 @@ public class GlobalConfigModule {
     public static final class Builder {
         private HttpUrl apiUrl;
         private BaseUrl baseUrl;
-        private BaseImageLoaderStrategy loaderStrategy;
         private GlobalHttpHandler handler;
         private List<Interceptor> interceptors;
         private ResponseErrorListener responseErrorListener;
@@ -252,11 +234,6 @@ public class GlobalConfigModule {
             return this;
         }
 
-        //用来请求网络图片
-        public Builder imageLoaderStrategy(BaseImageLoaderStrategy loaderStrategy) {
-            this.loaderStrategy = loaderStrategy;
-            return this;
-        }
 
         public Builder globalHttpHandler(GlobalHttpHandler handler) {//用来处理http响应结果
             this.handler = handler;

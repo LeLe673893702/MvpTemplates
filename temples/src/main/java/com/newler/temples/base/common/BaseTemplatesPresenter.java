@@ -22,7 +22,7 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 
 import com.hwangjr.rxbus.RxBus;
-import com.newler.temples.integration.IRepositoryManager;
+import com.newler.temples.integration.RepositoryManager;
 import com.newler.temples.utils.Preconditions;
 import com.newler.temples.utils.RxUtil;
 import com.uber.autodispose.AutoDisposeConverter;
@@ -33,30 +33,30 @@ import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * ================================================
- * 基类 Presenter
+ * 基类 TemplatesPresenter
  *
- * @see <a href="https://github.com/JessYanCoding/MVPArms/wiki#2.4.4">Presenter wiki 官方文档</a>
+ * @see <a href="https://github.com/JessYanCoding/MVPArms/wiki#2.4.4">TemplatesPresenter wiki 官方文档</a>
  * Created by JessYan on 4/28/2016
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * ================================================
  */
 
-public class BasePresenter<V extends IView> implements IPresenter, LifecycleObserver {
+public class BaseTemplatesPresenter<V extends TemplatesView> implements TemplatesPresenter, LifecycleObserver {
     protected final String TAG = this.getClass().getSimpleName();
     protected CompositeDisposable mCompositeDisposable;
 
     protected V mRootView;
-    protected IRepositoryManager mModel;
+    protected RepositoryManager mModel;
     /**
-     * 如果当前页面同时需要 Model 层和 View 层,则使用此构造函数(默认)
+     * 如果当前页面同时需要 Model 层和 TemplatesView 层,则使用此构造函数(默认)
      *
      * @param model
      * @param rootView
      */
     @Inject
-    public BasePresenter(IRepositoryManager model, V rootView) {
-        Preconditions.checkNotNull(rootView, "%s cannot be null", IView.class.getName());
+    public BaseTemplatesPresenter(RepositoryManager model, V rootView) {
+        Preconditions.checkNotNull(rootView, "%s cannot be null", TemplatesView.class.getName());
         this.mModel = model;
         this.mRootView = rootView;
         onStart();
@@ -74,17 +74,17 @@ public class BasePresenter<V extends IView> implements IPresenter, LifecycleObse
     }
 
     /**
-     * 如果当前页面不需要操作数据,只需要 View 层,则使用此构造函数
+     * 如果当前页面不需要操作数据,只需要 TemplatesView 层,则使用此构造函数
      *
      * @param rootView
      */
-    public BasePresenter(V rootView) {
-        Preconditions.checkNotNull(rootView, "%s cannot be null", IView.class.getName());
+    public BaseTemplatesPresenter(V rootView) {
+        Preconditions.checkNotNull(rootView, "%s cannot be null", TemplatesView.class.getName());
         this.mRootView = rootView;
         onStart();
     }
 
-    public BasePresenter() {
+    public BaseTemplatesPresenter() {
         onStart();
     }
 
@@ -107,7 +107,7 @@ public class BasePresenter<V extends IView> implements IPresenter, LifecycleObse
     }
 
     /**
-     * 在框架中 {@link Activity#onDestroy()} 时会默认调用 {@link IPresenter#onDestroy()}
+     * 在框架中 {@link Activity#onDestroy()} 时会默认调用 {@link TemplatesPresenter#onDestroy()}
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     @Override

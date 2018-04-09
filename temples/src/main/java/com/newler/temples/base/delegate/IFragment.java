@@ -23,8 +23,8 @@ import com.newler.temples.base.common.BaseFragment;
 import com.newler.temples.di.component.AppComponent;
 import com.newler.temples.integration.cache.Cache;
 import com.newler.temples.integration.cache.LruCache;
-import com.newler.temples.integration.store.lifecyclemodel.LifecycleModel;
-import com.newler.temples.integration.store.lifecyclemodel.LifecycleModelProviders;
+import com.newler.temples.integration.lifecyclemodel.LifecycleModel;
+import com.newler.temples.integration.lifecyclemodel.LifecycleModelProviders;
 
 /**
  * ================================================
@@ -57,7 +57,7 @@ public interface IFragment {
     void setupFragmentComponent(AppComponent appComponent);
 
     /**
-     * 初始化 View
+     * 初始化 TemplatesView
      */
     void initView();
 

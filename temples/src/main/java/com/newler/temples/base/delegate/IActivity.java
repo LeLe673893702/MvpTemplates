@@ -27,8 +27,8 @@ import com.newler.temples.base.common.BaseFragment;
 import com.newler.temples.di.component.AppComponent;
 import com.newler.temples.integration.cache.Cache;
 import com.newler.temples.integration.cache.LruCache;
-import com.newler.temples.integration.store.lifecyclemodel.LifecycleModel;
-import com.newler.temples.integration.store.lifecyclemodel.LifecycleModelProviders;
+import com.newler.temples.integration.lifecyclemodel.LifecycleModel;
+import com.newler.temples.integration.lifecyclemodel.LifecycleModelProviders;
 
 /**
  * ================================================
@@ -62,7 +62,7 @@ public interface IActivity {
 
 
     /**
-     * 初始化 View,框架则不会调用{@link Activity#setContentView(int)}
+     * 初始化 TemplatesView,框架则不会调用{@link Activity#setContentView(int)}
      *
      */
     void initView();

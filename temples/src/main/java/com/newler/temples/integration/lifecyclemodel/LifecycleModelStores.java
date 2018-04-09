@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.newler.temples.integration.store.lifecyclemodel;
+package com.newler.temples.integration.lifecyclemodel;
 
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;

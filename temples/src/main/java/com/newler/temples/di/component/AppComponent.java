@@ -23,9 +23,8 @@ import com.newler.temples.base.delegate.AppDelegate;
 import com.newler.temples.di.module.AppModule;
 import com.newler.temples.di.module.ClientModule;
 import com.newler.temples.di.module.GlobalConfigModule;
-import com.newler.temples.http.imageloader.ImageLoader;
 import com.newler.temples.integration.AppManager;
-import com.newler.temples.integration.IRepositoryManager;
+import com.newler.temples.integration.RepositoryManager;
 import com.newler.temples.integration.cache.Cache;
 import com.newler.temples.utils.ArmsUtils;
 
@@ -57,13 +56,10 @@ public interface AppComponent {
     AppManager appManager();
 
     //用于管理网络请求层,以及数据缓存层
-    IRepositoryManager repositoryManager();
+    RepositoryManager repositoryManager();
 
     //RxJava 错误处理管理类
     RxErrorHandler rxErrorHandler();
-
-    //图片管理器,用于加载图片的管理类,默认使用 Glide ,使用策略模式,可在运行时替换框架
-    ImageLoader imageLoader();
 
     OkHttpClient okHttpClient();
 

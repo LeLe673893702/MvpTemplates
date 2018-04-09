@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-package com.newler.temples.integration.store.lifecyclemodel;
+package com.newler.temples.integration.lifecyclemodel;
 
 import android.app.Activity;
+import android.app.Application;
+import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
 /**
  * {@link LifecycleModelProviders} 配合 {@link LifecycleModel} 的实现类可以帮助 {@link Activity} 和 {@link Fragment}
@@ -77,10 +81,52 @@ import android.support.v4.app.Fragment;
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  */
-public interface LifecycleModel {
+public class LifecycleModelProviders {
+
+
+    private static Application checkApplication(Activity activity) {
+        Application application = activity.getApplication();
+        if (application == null) {
+            throw new IllegalStateException("Your activity/fragment is not yet attached to "
+                    + "Application. You can't request LifecycleModel before onCreate call.");
+        }
+        return application;
+    }
+
+    private static Activity checkActivity(Fragment fragment) {
+        Activity activity = fragment.getActivity();
+        if (activity == null) {
+            throw new IllegalStateException("Can't create LifecycleModelStore for detached fragment");
+        }
+        return activity;
+    }
+
     /**
-     * 这个方法会在宿主 {@link Activity} 或 {@link Fragment} 被彻底销毁时被调用, 在这个方法中释放一些资源可以避免内存泄漏
+     * 返回的 {@link LifecycleModelStore} 可以在传入的这个 {code fragment} 的生命范围内一直存活者
+     * {@link LifecycleModelStore} 可以存储不同的 {@link LifecycleModel} 实现类
+     * 更多信息请查看 {@link LifecycleModelProviders} 顶部的注释
+     *
+     * @param fragment {@link LifecycleModel} 在这个 {code fragment} 的生命范围内被保留
+     * @return a LifecycleModelStore instance
      */
-    @SuppressWarnings("WeakerAccess")
-    void onCleared();
+    @MainThread
+    public static LifecycleModelStore of(@NonNull Fragment fragment) {
+        checkApplication(checkActivity(fragment));
+        return LifecycleModelStores.of(fragment);
+    }
+
+    /**
+     * 返回的 {@link LifecycleModelStore} 可以在传入的这个 {code activity} 的生命范围内一直存活着
+     * {@link LifecycleModelStore} 可以存储不同的 {@link LifecycleModel} 实现类
+     * 更多信息请查看 {@link LifecycleModelProviders} 顶部的注释
+     *
+     * @param activity {@link LifecycleModel} 在这个 {code activity} 的生命范围内被保留
+     * @return a LifecycleModelStore instance
+     */
+    @MainThread
+    public static LifecycleModelStore of(@NonNull FragmentActivity activity) {
+        checkApplication(activity);
+        return LifecycleModelStores.of(activity);
+    }
+
 }

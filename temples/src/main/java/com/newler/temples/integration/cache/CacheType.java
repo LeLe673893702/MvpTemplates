@@ -21,7 +21,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.newler.temples.di.component.AppComponent;
-import com.newler.temples.integration.RepositoryManager;
+import com.newler.temples.integration.RepositoryManagerImpl;
 
 /**
  * ================================================
@@ -46,7 +46,7 @@ public interface CacheType {
     // 缓存fragment
     int FRAGMENT_CACHE_TYPE_ID = 4;
     /**
-     * {@link RepositoryManager}中存储 Retrofit Service 的容器
+     * {@link RepositoryManagerImpl}中存储 Retrofit Service 的容器
      */
     CacheType RETROFIT_SERVICE_CACHE = new CacheType() {
         private static final int MAX_SIZE = 150;
@@ -75,7 +75,7 @@ public interface CacheType {
     };
 
     /**
-     * {@link RepositoryManager} 中储存 Cache Service 的容器
+     * {@link RepositoryManagerImpl} 中储存 Cache Service 的容器
      */
     CacheType CACHE_SERVICE_CACHE = new CacheType() {
         private static final int MAX_SIZE = 150;

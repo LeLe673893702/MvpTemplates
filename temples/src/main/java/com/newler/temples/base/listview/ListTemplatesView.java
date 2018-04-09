@@ -1,7 +1,6 @@
-package com.newler.temples.base.list;
+package com.newler.temples.base.listview;
 
-import com.newler.temples.base.state.IStatePresenter;
-import com.newler.temples.base.state.IStateView;
+import com.newler.temples.base.stateview.StateTemplatesView;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
  * @author liule
  * @time 2018/3/9
  */
-public interface IListView extends IStateView {
+public interface ListTemplatesView extends StateTemplatesView {
     /**
      * 刷新数据成功
      * @param datas 刷新出来的数据

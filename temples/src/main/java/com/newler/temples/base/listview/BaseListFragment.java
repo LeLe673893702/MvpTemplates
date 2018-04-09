@@ -1,7 +1,5 @@
-package com.newler.temples.base.list;
+package com.newler.temples.base.listview;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +7,7 @@ import android.view.LayoutInflater;
 import android.view.ViewStub;
 
 import com.newler.temples.R;
-import com.newler.temples.base.state.BaseStateActivity;
-import com.newler.temples.di.component.AppComponent;
+import com.newler.temples.base.stateview.BaseStateFragment;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -21,11 +18,12 @@ import java.util.List;
 import me.drakeet.multitype.MultiTypeAdapter;
 
 /**
- * 列表Activity
+ *  ListFragment
+ *
  * @author liule
  * @time 2018/3/9
  */
-public abstract class BaseListActivity<LP extends IListPresenter> extends BaseStateActivity<LP> implements IListView {
+public abstract class BaseListFragment<LP extends ListTemplatesPresenter> extends BaseStateFragment<LP> implements ListTemplatesView {
     protected SmartRefreshLayout mRefreshLayout;
     protected RecyclerView mRecyclerView;
     private ViewStub headerViewStub;
@@ -35,9 +33,9 @@ public abstract class BaseListActivity<LP extends IListPresenter> extends BaseSt
     public void initView() {
         super.initView();
 
-        mRefreshLayout = findViewById(R.id.refresh_layout);
-        headerViewStub = findViewById(R.id.view_stub_header);
-        mRecyclerView = findViewById(android.R.id.list);
+        mRefreshLayout = getView().findViewById(R.id.refresh_layout);
+        headerViewStub = getView().findViewById(R.id.view_stub_header);
+        mRecyclerView = getView().findViewById(android.R.id.list);
 
         if (getLayoutResId() != 0) {
             headerViewStub.setLayoutResource(getHeaderLayoutResId());
@@ -45,7 +43,7 @@ public abstract class BaseListActivity<LP extends IListPresenter> extends BaseSt
         }
 
         if (getRefreshContentLayoutResId() != 0) {
-            mRefreshLayout.setRefreshContent(LayoutInflater.from(this).inflate(getRefreshContentLayoutResId(), null));
+            mRefreshLayout.setRefreshContent(LayoutInflater.from(getContext()).inflate(getRefreshContentLayoutResId(), null));
         }
 
         buildRecycleView();
@@ -61,8 +59,8 @@ public abstract class BaseListActivity<LP extends IListPresenter> extends BaseSt
      * 配置refreshLayout属性,默认header设置为MaterialHeader
      */
     protected void buildRefreshLayout() {
-        mRefreshLayout.setRefreshHeader(new MaterialHeader(this));
-        mRefreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
+        mRefreshLayout.setRefreshHeader(new MaterialHeader(getContext()));
+        mRefreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
 
         mRefreshLayout.setOnRefreshListener(refreshLayout -> mPresenter.refreshData());
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> mPresenter.loadMoreData());
@@ -77,8 +75,8 @@ public abstract class BaseListActivity<LP extends IListPresenter> extends BaseSt
         registerViewBinder(mAdapter);
 
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
 
     @Override

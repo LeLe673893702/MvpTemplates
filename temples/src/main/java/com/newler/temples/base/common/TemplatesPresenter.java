@@ -13,34 +13,31 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package com.newler.temples.http.imageloader;
+package com.newler.temples.base.common;
 
-import android.content.Context;
+import android.app.Activity;
+import android.arch.lifecycle.LifecycleObserver;
 
 /**
  * ================================================
- * 图片加载策略,实现 {@link BaseImageLoaderStrategy}
- * 并通过 {@link ImageLoader#setLoadImgStrategy(BaseImageLoaderStrategy)} 配置后,才可进行图片请求
- * <p>
- * Created by JessYan on 8/5/2016 15:50
+ * 框架要求框架中的每个 TemplatesPresenter 都需要实现此类,以满足规范
+ *
+ * @see BaseTemplatesPresenter
+ * @see <a href="https://github.com/JessYanCoding/MVPArms/wiki#2.4.4">TemplatesPresenter wiki 官方文档</a>
+ * Created by JessYan on 4/28/2016
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * ================================================
  */
-public interface BaseImageLoaderStrategy<T extends ImageConfig> {
-    /**
-     * 加载图片
-     *
-     * @param ctx
-     * @param config
-     */
-    void loadImage(Context ctx, T config);
+public interface TemplatesPresenter extends LifecycleObserver {
 
     /**
-     * 停止加载
-     *
-     * @param ctx
-     * @param config
+     * 做一些初始化操作
      */
-    void clear(Context ctx, T config);
+    void onStart();
+
+    /**
+     * 在框架中 {@link Activity#onDestroy()} 时会默认调用 {@link TemplatesPresenter#onDestroy()}
+     */
+    void onDestroy();
 }
